@@ -1,6 +1,7 @@
 package com.erp.reimbursement.config;
 
 import com.erp.reimbursement.security.JwtAuthenticationFilter;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,11 @@ public class SecurityConfig {
         this.jwt = jwt;
     }
 
+    @PostConstruct
+    void logCorsOrigins() {
+        System.out.println("CORS ORIGINS = " + corsOrigins);
+    }
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -41,7 +47,11 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
 
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .cors(cors ->
+                        cors.configurationSource(
+                                corsConfigurationSource()
+                        )
+                )
 
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
@@ -70,11 +80,13 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
 
-        CorsConfiguration configuration = new CorsConfiguration();
+        CorsConfiguration configuration =
+                new CorsConfiguration();
 
-        // Allow Angular running on any localhost port during development
         configuration.setAllowedOriginPatterns(
-                List.of(corsOrigins.split("\s*,\s*"))
+                List.of(
+                        corsOrigins.split("\\s*,\\s*")
+                )
         );
 
         configuration.setAllowedMethods(
