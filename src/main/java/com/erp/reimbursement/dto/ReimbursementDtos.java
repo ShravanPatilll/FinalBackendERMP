@@ -1,0 +1,3 @@
+package com.erp.reimbursement.dto;
+import jakarta.validation.constraints.*; import java.math.*; import java.time.*; import java.util.*;
+public final class ReimbursementDtos { private ReimbursementDtos(){} public record CreateClaimRequest(@NotBlank String title,@NotEmpty List<Long> categoryIds,Long claimTypeId,@NotNull LocalDate expenseDate,@NotNull @DecimalMin("0.01") BigDecimal amount,@NotBlank String paymentMode,@Size(max=2000) String description,String merchant){} public record ActionRequest(String remark){} public record PaymentRequest(@NotBlank String paymentType,String transactionReference){} }

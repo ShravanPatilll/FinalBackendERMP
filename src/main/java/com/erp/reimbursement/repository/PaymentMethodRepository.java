@@ -1,0 +1,1 @@
+package com.erp.reimbursement.repository; import org.springframework.data.jpa.repository.JpaRepository; import com.erp.reimbursement.entity.PaymentMethod; import java.util.*; public interface PaymentMethodRepository extends JpaRepository<PaymentMethod,Long> { Optional<PaymentMethod> findByNameIgnoreCase(String name); List<PaymentMethod> findAllByActiveTrueOrderByNameAsc(); }

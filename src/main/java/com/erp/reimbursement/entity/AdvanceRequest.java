@@ -1,0 +1,6 @@
+package com.erp.reimbursement.entity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*; import lombok.*; import java.math.BigDecimal; import java.time.*; import com.erp.reimbursement.enums.AdvanceStatus;
+@Entity @Table(name="advance_requests") @Getter @Setter @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class AdvanceRequest { @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id; @Column(nullable=false,unique=true) private String requestNumber; @ManyToOne(fetch=FetchType.EAGER,optional=false) @JoinColumn(name="employee_id") private User employee; private String category; @Column(length=2000) private String purpose; @Column(nullable=false,precision=15,scale=2) private BigDecimal amount; private LocalDate requiredDate; @Enumerated(EnumType.STRING) @Column(nullable=false) private AdvanceStatus status=AdvanceStatus.PENDING_MANAGER_APPROVAL; @Column(length=1000) private String rejectionRemark; private String paymentType; private String transactionReference; private LocalDateTime createdAt; private LocalDateTime paidAt; @PrePersist void pre(){createdAt=LocalDateTime.now();if(requestNumber==null)requestNumber="ADV-"+System.currentTimeMillis();} }

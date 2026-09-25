@@ -1,0 +1,1 @@
+package com.erp.reimbursement.repository; import org.springframework.data.jpa.repository.JpaRepository; import com.erp.reimbursement.entity.ReimbursementAttachment; public interface ReimbursementAttachmentRepository extends JpaRepository<ReimbursementAttachment,Long>{}

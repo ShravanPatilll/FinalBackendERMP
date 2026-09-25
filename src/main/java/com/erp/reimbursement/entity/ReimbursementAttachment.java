@@ -1,0 +1,4 @@
+package com.erp.reimbursement.entity;
+import jakarta.persistence.*; import com.fasterxml.jackson.annotation.JsonIgnore; import lombok.*; import java.time.*; import com.erp.reimbursement.enums.AttachmentType;
+@Entity @Table(name="reimbursement_attachments") @Getter @Setter @NoArgsConstructor
+public class ReimbursementAttachment { @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id; @JsonIgnore @ManyToOne(fetch=FetchType.LAZY,optional=false) @JoinColumn(name="reimbursement_id") private Reimbursement reimbursement; @Enumerated(EnumType.STRING) @Column(nullable=false) private AttachmentType attachmentType; @Column(nullable=false) private String originalFileName; private String contentType; private long fileSize; @Column(nullable=false) private String storedFileName; private LocalDateTime uploadedAt; @PrePersist void pre(){uploadedAt=LocalDateTime.now();} }

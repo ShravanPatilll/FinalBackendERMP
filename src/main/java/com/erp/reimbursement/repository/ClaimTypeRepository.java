@@ -1,0 +1,1 @@
+package com.erp.reimbursement.repository; import org.springframework.data.jpa.repository.JpaRepository; import com.erp.reimbursement.entity.ClaimType; import java.util.*; public interface ClaimTypeRepository extends JpaRepository<ClaimType,Long> { Optional<ClaimType> findByNameIgnoreCase(String name); List<ClaimType> findAllByActiveTrueOrderByNameAsc(); }

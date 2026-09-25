@@ -1,0 +1,1 @@
+package com.erp.reimbursement.repository; import org.springframework.data.jpa.repository.JpaRepository; import com.erp.reimbursement.entity.ApprovalLevel; import java.util.*; public interface ApprovalLevelRepository extends JpaRepository<ApprovalLevel,Long> { Optional<ApprovalLevel> findByNameIgnoreCase(String name); List<ApprovalLevel> findAllByActiveTrueOrderByNameAsc(); }
