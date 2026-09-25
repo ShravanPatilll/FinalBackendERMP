@@ -1,8 +1,6 @@
 package com.erp.reimbursement.config;
 
 import com.erp.reimbursement.security.JwtAuthenticationFilter;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -24,16 +22,8 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwt;
 
-    @Value("${app.cors-origins:http://localhost:4200}")
-    private String corsOrigins;
-
     public SecurityConfig(JwtAuthenticationFilter jwt) {
         this.jwt = jwt;
-    }
-
-    @PostConstruct
-    void logCorsOrigins() {
-        System.out.println("CORS ORIGINS = " + corsOrigins);
     }
 
     @Bean
@@ -46,19 +36,16 @@ public class SecurityConfig {
 
         return http
                 .csrf(csrf -> csrf.disable())
-
                 .cors(cors ->
                         cors.configurationSource(
                                 corsConfigurationSource()
                         )
                 )
-
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS
                         )
                 )
-
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/auth/**",
@@ -68,12 +55,10 @@ public class SecurityConfig {
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .addFilterBefore(
                         jwt,
                         UsernamePasswordAuthenticationFilter.class
                 )
-
                 .build();
     }
 
@@ -83,9 +68,11 @@ public class SecurityConfig {
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
-        configuration.setAllowedOriginPatterns(
+        configuration.setAllowedOrigins(
                 List.of(
-                        corsOrigins.split("\\s*,\\s*")
+                        "https://erp-frontend1-ten.vercel.app",
+                        "https://erp-frontend1-omega.vercel.app",
+                        "http://localhost:4200"
                 )
         );
 
